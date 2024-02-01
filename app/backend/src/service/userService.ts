@@ -20,7 +20,11 @@ export default class UserService {
     if (!isPasswordValid) {
       return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
     }
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, { expiresIn: '10h' });
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET as string,
+      { expiresIn: '10h' },
+    );
     return { status: 'SUCCESSFUL', data: { token } };
   }
 }

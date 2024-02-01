@@ -10,4 +10,9 @@ export default class UserController {
     const response = await this.NewService.login(email, password);
     res.status(HTTPMap(response.status)).json(response.data);
   }
+
+  // public static async tokenRole(_req: Request, res: Response) {
+  //   const { batatinha } = res.locals.auth;
+  //   return res.status(200).json({ batatinha });
+  // }
 }
