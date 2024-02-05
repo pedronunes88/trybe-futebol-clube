@@ -11,13 +11,8 @@ export default class MatchesServ {
     return { status: 'SUCCESSFUL', data: matches };
   }
 
-  public async endedMatches(id: string) {
-    await this.model.endedMatches(id);
-    return { status: 'SUCCESSFUL', message: 'Match finshed' };
-  }
-
-  public async updMatches(id: string, match: MatchesInter) {
-    await this.model.updMatches(id, match);
-    return { status: 'SUCCESSFUL', data: { message: 'Match updated' } };
+  public async endMatchesServ(id: string, match: MatchesInter) {
+    await this.model.endMatches(id, match);
+    return { status: 'SUCCESSFUL', message: 'Match updated' };
   }
 }

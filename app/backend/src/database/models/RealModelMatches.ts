@@ -20,24 +20,12 @@ export default class SuperMatches implements IMatches {
     return teams;
   }
 
-  async endedMatches(id: string): Promise<MatchesInter> {
-    const match = await this.matchesModel.findByPk(id);
-    if (!match) {
-      throw new Error('Match not found');
-    }
-    if (match.inProgress === false) {
-      throw new Error('Match already finished');
-    }
-    await match.update({ inProgress: false });
-    return match;
-  }
-
-  async updMatches(id: string, match: MatchesInter): Promise<MatchesInter> {
+  async endMatches(id: string, match: MatchesInter): Promise<MatchesInter> {
     const matchUpd = await this.matchesModel.findByPk(id);
     if (!matchUpd) {
       throw new Error('Match not found');
     }
-    await matchUpd.update(match);
+    await matchUpd.update({ id: match.id, inProgress: false });
     return matchUpd;
   }
 }

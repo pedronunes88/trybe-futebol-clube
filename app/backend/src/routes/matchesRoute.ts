@@ -1,5 +1,6 @@
 import { Response, Request, Router } from 'express';
 import MatchesController from '../controller/matchesController';
+import Autenticador from '../middlewares/autenticadorToken';
 
 const matchesRouter = Router();
 
@@ -7,8 +8,10 @@ const matchController = new MatchesController();
 
 matchesRouter.get('/', (req: Request, res: Response) => matchController.allMatches(req, res));
 
-matchesRouter.put('/:id', (req: Request, res: Response) => matchController.updateMatch(req, res));
-
-matchesRouter.patch('/:id', (req: Request, res: Response) => matchController.endMatch(req, res));
+matchesRouter.patch(
+  '/:id/finish',
+  Autenticador.autenticar,
+  (req: Request, res: Response) => matchController.endMatchController(req, res),
+);
 
 export default matchesRouter;

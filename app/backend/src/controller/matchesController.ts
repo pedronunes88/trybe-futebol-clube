@@ -16,16 +16,10 @@ export default class MatchesController {
     return res.status(HTTPMap(response.status)).json(response.data);
   }
 
-  public async endMatch(req: Request, res: Response) {
-    const { id } = req.params;
-    const response = await this.mtchService.endedMatches(id);
-    return res.status(HTTPMap(response.status)).json(response.message);
-  }
-
-  public async updateMatch(req: Request, res: Response) {
+  public async endMatchController(req: Request, res: Response) {
     const { id } = req.params;
     const match = req.body;
-    const response = await this.mtchService.updMatches(id, match);
+    const response = await this.mtchService.endMatchesServ(id, match);
     return res.status(200).json(response);
   }
 }
