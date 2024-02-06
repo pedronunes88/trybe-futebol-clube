@@ -26,13 +26,13 @@ export default class MatchesServ {
     return { status: 'SUCCESSFUL', data: 'Match updated' };
   }
 
-  public async createMatchServ(matchProps: MatchesInfo) {
+  public async createMatchServ(matchProps: MatchesInfo): Promise<ServiceResponse<MatchesInter>> {
     const { homeTeamId, awayTeamId } = matchProps;
-    const teamValid1 = await this.service.getTeamById(homeTeamId);
-    const teamValid2 = await this.service.getTeamById(awayTeamId);
+    const teamValid1 = await this.service.getTeamById(Number(homeTeamId));
+    const teamValid2 = await this.service.getTeamById(Number(awayTeamId));
 
     if (teamValid1.status === 'NOT_FOUND' || teamValid2.status === 'NOT_FOUND') {
-      return { status: 'NOT_FOUND', message: 'There is no team with such id!' };
+      return { status: 'NOT_FOUND', data: { message: 'There is no team with such id!' } };
     }
     const newMatch = await this.model.createMatch(matchProps);
     return { status: 'CREATED', data: newMatch };
