@@ -15,4 +15,9 @@ export default class MatchesServ {
     await this.model.endMatches(id, match);
     return { status: 'SUCCESSFUL', message: 'Match updated' };
   }
+
+  public async updMatchesServ(homeTeamGoals: number, awayTeamGoals: number, id: string) {
+    await this.model.updMatches(homeTeamGoals, awayTeamGoals, id);
+    return { status: 'SUCCESSFUL', data: 'Match updated' };
+  }
 }

@@ -28,4 +28,17 @@ export default class SuperMatches implements IMatches {
     await matchUpd.update({ id: match.id, inProgress: false });
     return matchUpd;
   }
+
+  async updMatches(
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+    id: string,
+  ): Promise<MatchesInter> {
+    const matchUpd = await this.matchesModel.findByPk(id);
+    if (!matchUpd) {
+      throw new Error('Match not found');
+    }
+    await matchUpd.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    return matchUpd;
+  }
 }
