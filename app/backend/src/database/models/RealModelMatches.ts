@@ -2,6 +2,7 @@ import Teams from './ModelTeams';
 import Matches from './ModelMatches';
 import { MatchesInter } from '../../Interfaces/matchesInterface';
 import { IMatches } from '../../Interfaces/IMatches';
+import { MatchesInfo } from '../../Interfaces/matchesTeam';
 
 export default class SuperMatches implements IMatches {
   private matchesModel = Matches;
@@ -40,5 +41,21 @@ export default class SuperMatches implements IMatches {
     }
     await matchUpd.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
     return matchUpd;
+  }
+
+  async createMatch(matchProps: MatchesInfo): Promise<MatchesInter> {
+    const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = matchProps;
+    try {
+      const newMatch = await this.matchesModel.create({
+        homeTeamId,
+        awayTeamId,
+        homeTeamGoals,
+        awayTeamGoals,
+        inProgress: true,
+      });
+      return newMatch;
+    } catch (error) {
+      throw new Error('Não foi possivel criar a partida');
+    }
   }
 }

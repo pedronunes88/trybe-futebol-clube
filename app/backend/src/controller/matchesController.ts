@@ -30,4 +30,9 @@ export default class MatchesController {
     this.mtchService.updMatchesServ(homeTeamGoals, awayTeamGoals, id);
     return res.status(HTTPMap(status)).json(data);
   }
+
+  public async createMatchController(req: Request, res: Response) {
+    const { status, data } = await this.mtchService.createMatchServ(req.body);
+    return res.status(HTTPMap(status)).json(data);
+  }
 }
