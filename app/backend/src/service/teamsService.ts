@@ -17,6 +17,7 @@ export default class TeamsService {
     if (!team) {
       return { status: 'NOT_FOUND', data: { message: 'Team not found' } };
     }
+    console.log('team model findByPk mockar', team);
     return { status: 'SUCCESSFUL', data: team };
   }
 }
