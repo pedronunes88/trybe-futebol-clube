@@ -46,9 +46,21 @@ homeTeamGoals: 2,
 awayTeamGoals: 2
 }
 
+const match1 = {
+  id: 1,
+  homeTeamId: 16,
+  homeTeamGoals: 2,
+  awayTeamId: 8,
+  awayTeamGoals: 2,
+  inProgress: true
+}
+const matchToken = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNzA2NjY0NzI4LCJleHAiOjE3MDcyNjk1Mjh9.5-jAnVmwyxIjePkikTh-aBRIZV2lvwZcYG9QNbI1DLo"
+
 export {
   matches,
   matchesLive,
   scoreMatchesUpd,
-  NewMatches
+  NewMatches,
+  match1,
+  matchToken
 }

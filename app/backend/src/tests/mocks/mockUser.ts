@@ -21,6 +21,6 @@ const loginOk = {
   password: 'secret_admin',
 }
 
-const token = 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNzA2ODEwOTExLCJleHAiOjE3MDc0MTU3MTF9.bsVn9Z46Jisyym3JKuclZe6a0iQHpMOD6Ywi1ss4hrU';
+const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNzA2NjY0NzI4LCJleHAiOjE3MDcyNjk1Mjh9.5-jAnVmwyxIjePkikTh-aBRIZV2lvwZcYG9QNbI1DLo"
 
 export { invalidUser, invalidEmail, invalidPassword, loginOk, token};

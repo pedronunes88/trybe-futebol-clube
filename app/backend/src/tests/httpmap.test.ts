@@ -37,4 +37,8 @@ describe('teste httpmap', () => {
     const unauthorized = HTTPMap( 'UNAUTHORIZED');
     expect(unauthorized).to.be.eq(401);
   });
+  it('Checa se o httpmap retorna status correto', async function() {
+    const created = HTTPMap( 'CREATED');
+    expect(created).to.be.eq(201);
+  });
 });

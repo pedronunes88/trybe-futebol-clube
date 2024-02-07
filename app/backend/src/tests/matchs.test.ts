@@ -9,7 +9,7 @@ import { teams, singleTeam } from './mocks/mockTeams';
 import Teams from '../database/models/ModelTeams';
 import { Response } from 'superagent';
 import Matches from '../database/models/ModelMatches';
-import { matches, matchesLive, scoreMatchesUpd, NewMatches } from '../tests/mocks/mockMatches';
+import { matches, matchesLive, scoreMatchesUpd, NewMatches, match1 } from '../tests/mocks/mockMatches';
 import { token } from './mocks/mockUser';
 import SuperMatches from '../database/models/RealModelMatches';
 
@@ -68,5 +68,25 @@ describe('teste matches', () => {
     expect(status).to.be.equal(401)
     expect(body).to.be.deep.equal({ message: 'Token must be a valid token' })
   });
-  
+  // it('Checa se termina a partida', async function () {
+  //   sinon.stub(Matches, 'findByPk').resolves(match1 as any);
+  //   sinon.stub(Matches, 'update').resolves(undefined);
+  //   const { status, body } = await chai.request(app).patch("/matches/1/finish").set('Authorization', token);
+  //   expect(status).to.be.equal(200);
+  //   expect(body).to.be.deep.equal({ message: 'Match finished' });
+  // });
+  it('checa se avisa q ta faltando token pra terminar partida', async function () {
+    sinon.stub(Matches, 'findByPk').resolves(match1 as any);
+    sinon.stub(Matches, 'update').resolves(undefined);
+    const { status, body } = await chai.request(app).patch("/matches/1/finish");
+    expect(status).to.be.equal(401);
+    expect(body).to.be.deep.equal({ message: 'Token not found' });
+  });
+  // it('checa se atualiza partida score', async function () {
+  //   sinon.stub(Matches, 'findByPk').resolves(match1 as any);
+  //   sinon.stub(Matches, 'update').resolves(undefined);
+  //   const { status, body } = await chai.request(app).patch('/matches/1').set('Authorization', token);
+  //   expect(status).to.be.equal(200);
+  //   expect(body).to.be.deep.equal(match1);
+  // });
 });
