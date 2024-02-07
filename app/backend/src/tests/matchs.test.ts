@@ -1,5 +1,6 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
+import * as jwt from 'jsonwebtoken';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -8,7 +9,7 @@ import { teams, singleTeam } from './mocks/mockTeams';
 import Teams from '../database/models/ModelTeams';
 import { Response } from 'superagent';
 import Matches from '../database/models/ModelMatches';
-import { matches, matchesLive, scoreMatchesUpd } from '../tests/mocks/mockMatches';
+import { matches, matchesLive, scoreMatchesUpd, NewMatches } from '../tests/mocks/mockMatches';
 import { token } from './mocks/mockUser';
 import SuperMatches from '../database/models/RealModelMatches';
 
@@ -38,18 +39,34 @@ describe('teste matches', () => {
     expect(status).to.be.eq(200);
     expect(body).to.be.deep.eq(matches);
   });
-  // it('Checa se nao encontra nenhuma partida', async function() {
-  //   sinon.stub(Matches, 'findAll').resolves([]);
-  //   const {status, body} = await chai.request(app).get('/matches');
-  //   expect(status).to.be.eq(404);
-  //   expect(body).to.be.deep.eq({ message: 'Teams not found' });
-  // });
-  // it('Checa se atualiza progresso da partida', async function() {
-  //   sinon.stub(Matches, 'update').resolves();
-  //   const {status, body} = await chai.request(app).patch('/matches/1').send(scoreMatchesUpd).set('Authorization', token);
-  //   expect(status).to.equal(200);
-  //   expect(body).to.be.deep.eq({ message: 'Match updated' });
-  // });
-  
+  it('Checa caso não envie um token', async function () {
+    const { status, body } = await chai.request(app).post("/matches")
+    .send(NewMatches)
+
+    expect(status).to.be.equal(401)
+    expect(body).to.be.deep.equal({ message: 'Token not found' })
+  })
+
+  it('Checa se retorna erro caso seja um token inválido', async function () {
+
+    sinon.stub(jwt, 'verify').throws(new Error('Token must be a valid token'))
+    const { status, body } = await chai.request(app).post("/matches")
+    .set({'Authorization': `Bearer any-token`})
+    .send(NewMatches)
+
+    expect(status).to.be.equal(401)
+    expect(body).to.be.deep.equal({ message: 'Token must be a valid token' })
+  });
+
+  it('erro caso seja enviado um token inválido', async function () {
+
+    sinon.stub(jwt, 'verify').throws(new Error('Token must be a valid token'))
+    const { status, body } = await chai.request(app).post("/matches")
+    .set({'Authorization': `Bearer any-token`})
+    .send(NewMatches)
+
+    expect(status).to.be.equal(401)
+    expect(body).to.be.deep.equal({ message: 'Token must be a valid token' })
+  });
   
 });

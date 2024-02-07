@@ -39,8 +39,16 @@ const scoreMatchesUpd ={
   "awayTeamGoals": 1
 }
 
+const NewMatches = {
+  homeTeamId: 12,
+awayTeamId: 8,
+homeTeamGoals: 2,
+awayTeamGoals: 2
+}
+
 export {
   matches,
   matchesLive,
-  scoreMatchesUpd
+  scoreMatchesUpd,
+  NewMatches
 }
