@@ -7,7 +7,7 @@ import { MatchesInfo } from '../../Interfaces/matchesTeam';
 export default class SuperMatches implements IMatches {
   private matchesModel = Matches;
 
-  async findAllMatches(): Promise<MatchesInter[]> {
+  async findAllMatches(inProgress?: boolean): Promise<MatchesInter[]> {
     const teams = await this.matchesModel.findAll({
       include: [
         { model: Teams, as: 'homeTeam', attributes: ['teamName'] },
@@ -15,9 +15,9 @@ export default class SuperMatches implements IMatches {
       ],
       attributes: { exclude: ['home_team_id', 'away_team_id'] },
     });
-    // if (inProgress !== undefined) {
-    //   return teams.filter((match) => match.inProgress === inProgress);
-    // }
+    if (inProgress !== undefined) {
+      return teams.filter((match) => match.inProgress === inProgress);
+    }
     return teams;
   }
 
