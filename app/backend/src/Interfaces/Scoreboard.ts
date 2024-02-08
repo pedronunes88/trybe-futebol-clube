@@ -1,8 +1,15 @@
-import { MatchesInter } from './matchesInterface';
+import { MatchesInter, ScoreboardType } from './matchesInterface';
 
-const totalGames = (teamId: number, matches: MatchesInter[]): number => {
+const totalGamesHome = (teamId: number, matches: MatchesInter[]): number => {
   const total = matches.filter(
-    (match) => match.homeTeamId === teamId || match.awayTeamId === teamId,
+    (match) => teamId === match.homeTeamId,
+  );
+  return total.length;
+};
+
+const totalGamesAway = (teamId: number, matches: MatchesInter[]): number => {
+  const total = matches.filter(
+    (match) => match.awayTeamId === teamId,
   );
   return total.length;
 };
@@ -19,55 +26,113 @@ const totalWinsAway = (teamId: number, matches: MatchesInter[]): number => {
   return vitorias.length;
 };
 
-const totalLosses = (teamId: number, matches: MatchesInter[]): number => {
+const totalLossesHome = (teamId: number, matches: MatchesInter[]): number => {
   const lossesHome = matches
     .filter((match) => match.homeTeamId === teamId && match.homeTeamGoals < match.awayTeamGoals);
+  return lossesHome.length;
+};
+const totalLossesAway = (teamId: number, matches: MatchesInter[]): number => {
   const lossesAway = matches
     .filter((match) => match.awayTeamId === teamId && match.awayTeamGoals < match.homeTeamGoals);
-  const total = lossesHome.length + lossesAway.length;
-  return total;
+  return lossesAway.length;
 };
 
-const totalDraws = (teamId: number, matches: MatchesInter[]): number => {
+const totalDrawsHome = (teamId: number, matches: MatchesInter[]): number => {
+  const drawsH = matches
+    .filter((match) => match.homeTeamId === teamId
+      && match.awayTeamGoals === match.homeTeamGoals);
+  return drawsH.length;
+};
+
+const totalDrawsAway = (teamId: number, matches: MatchesInter[]): number => {
   const draws = matches
-    .filter((match) => (match.homeTeamId === teamId || match.awayTeamId === teamId)
-      && match.homeTeamGoals === match.awayTeamGoals);
+    .filter((match) => match.awayTeamId === teamId && match.awayTeamGoals === match.homeTeamGoals);
   return draws.length;
 };
 
-const totalPoints = (teamId: number, matches: MatchesInter[]): number => {
-  const wins = totalWinsHome(teamId, matches) + totalWinsAway(teamId, matches);
-  const draws = totalDraws(teamId, matches);
-  return (wins * 3) + draws;
+const totalPointsHome = (teamId: number, matches: MatchesInter[]): number => {
+  const drawsHome = totalDrawsHome(teamId, matches) * 1;
+  const totalWins = totalWinsHome(teamId, matches) * 3;
+  const finalPoints = drawsHome + totalWins;
+  return finalPoints;
 };
 
-const goalsOwn = (teamId: number, matches: MatchesInter[]): number => {
-  const goalsTakenHome = matches
-    .filter((match) => match.homeTeamId === teamId)
-    .reduce((acc, match) => acc + match.awayTeamGoals, 0);
+const totalPointsAway = (teamId: number, matches: MatchesInter[]): number => {
+  const drawsAway = totalDrawsAway(teamId, matches) * 1;
+  const totalWins = totalWinsAway(teamId, matches) * 3;
+  const finalPoints = drawsAway + totalWins;
+  return finalPoints;
+};
+
+const goalsOwnHome = (teamId: number, matches: MatchesInter[]): number => {
+  const goalsTakenHome = matches.reduce((acc, match) => {
+    let soma = acc;
+    if (match.homeTeamId === teamId) {
+      soma += match.awayTeamGoals;
+    }
+    return soma;
+  }, 0);
+  return goalsTakenHome;
+};
+
+const goalsOwnAway = (teamId: number, matches: MatchesInter[]): number => {
   const goalsTakenAway = matches
     .filter((match) => match.awayTeamId === teamId)
     .reduce((acc, match) => acc + match.homeTeamGoals, 0);
-  return goalsTakenHome + goalsTakenAway;
+  return goalsTakenAway;
 };
 
-const goalsFavor = (teamId: number, matches: MatchesInter[]): number => {
+const goalsFavorHome = (teamId: number, matches: MatchesInter[]): number => {
   const goalsScoredHome = matches
     .filter((match) => match.homeTeamId === teamId)
     .reduce((acc, match) => acc + match.homeTeamGoals, 0);
+  return goalsScoredHome;
+};
+
+const goalsFavorAway = (teamId: number, matches: MatchesInter[]): number => {
   const goalsScoredAway = matches
     .filter((match) => match.awayTeamId === teamId)
     .reduce((acc, match) => acc + match.awayTeamGoals, 0);
-  return goalsScoredHome + goalsScoredAway;
+  return goalsScoredAway;
+};
+
+const goalsBalance = (teamId: number, matches: MatchesInter[]): number => {
+  const goalsFavor = goalsFavorHome(teamId, matches);
+  const goalsTaken = goalsOwnHome(teamId, matches);
+  const goalsSaldo = goalsFavor - goalsTaken;
+  return goalsSaldo;
+};
+
+const efficiency = (teamId: number, matches: MatchesInter[]): string => {
+  const points = totalPointsHome(teamId, matches);
+  const games = totalGamesHome(teamId, matches);
+  const efficiencyTeam = ((points / (games * 3)) * 100).toFixed(2);
+  return efficiencyTeam;
+};
+
+const teamsSorted = (team: ScoreboardType[]): ScoreboardType[] => {
+  team.sort((a, b) =>
+    b.totalPoints - a.totalPoints
+    || b.goalsBalance - a.goalsBalance || b.goalsFavor - a.goalsFavor);
+  return team;
 };
 
 export {
-  totalGames,
+  totalGamesHome,
+  totalGamesAway,
   totalWinsHome,
   totalWinsAway,
-  totalLosses,
-  totalDraws,
-  goalsOwn,
-  goalsFavor,
-  totalPoints,
+  totalLossesHome,
+  totalLossesAway,
+  totalDrawsAway,
+  totalDrawsHome,
+  goalsOwnAway,
+  goalsOwnHome,
+  goalsFavorAway,
+  goalsFavorHome,
+  totalPointsAway,
+  totalPointsHome,
+  goalsBalance,
+  efficiency,
+  teamsSorted,
 };

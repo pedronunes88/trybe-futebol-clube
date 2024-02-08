@@ -1,13 +1,16 @@
 import SuperMatches from '../database/models/RealModelMatches';
 import SuperTeam from '../database/models/RealModelTeams';
-import { totalGames,
+import {
+  totalGamesHome,
   totalWinsHome,
-  totalWinsAway,
-  totalLosses,
-  totalDraws,
-  goalsOwn,
-  goalsFavor,
-  totalPoints,
+  goalsBalance,
+  totalLossesHome,
+  efficiency,
+  totalDrawsHome,
+  teamsSorted,
+  goalsOwnHome,
+  goalsFavorHome,
+  totalPointsHome,
 } from '../Interfaces/Scoreboard';
 
 export default class LeaderBoardServ {
@@ -21,14 +24,17 @@ export default class LeaderBoardServ {
     const matches = await this.model.findAllMatches(undefined);
     const teamsWithScore = teams.map((team) => ({
       name: team.teamName,
-      totalGames: totalGames(team.id, matches),
-      totalVictories: totalWinsHome(team.id, matches) + totalWinsAway(team.id, matches),
-      totalLosses: totalLosses(team.id, matches),
-      totalDraws: totalDraws(team.id, matches),
-      goalsFavor: goalsFavor(team.id, matches),
-      goalsOwn: goalsOwn(team.id, matches),
-      totalPoints: totalPoints(team.id, matches),
+      totalPoints: totalPointsHome(team.id, matches),
+      totalGames: totalGamesHome(team.id, matches),
+      totalVictories: totalWinsHome(team.id, matches),
+      totalDraws: totalDrawsHome(team.id, matches),
+      totalLosses: totalLossesHome(team.id, matches),
+      goalsFavor: goalsFavorHome(team.id, matches),
+      goalsOwn: goalsOwnHome(team.id, matches),
+      goalsBalance: goalsBalance(team.id, matches),
+      efficiency: efficiency(team.id, matches),
     }));
+    teamsSorted(teamsWithScore);
     return { status: 'SUCCESSFUL', data: teamsWithScore };
   }
 }
