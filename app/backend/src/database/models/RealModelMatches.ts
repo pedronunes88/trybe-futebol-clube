@@ -7,7 +7,7 @@ import { MatchesInfo } from '../../Interfaces/matchesTeam';
 export default class SuperMatches implements IMatches {
   private matchesModel = Matches;
 
-  async findAllMatches(inProgress?: boolean): Promise<MatchesInter[]> {
+  async findAllMatches(): Promise<MatchesInter[]> {
     const teams = await this.matchesModel.findAll({
       include: [
         { model: Teams, as: 'homeTeam', attributes: ['teamName'] },
@@ -15,10 +15,24 @@ export default class SuperMatches implements IMatches {
       ],
       attributes: { exclude: ['home_team_id', 'away_team_id'] },
     });
-    if (inProgress !== undefined) {
-      return teams.filter((match) => match.inProgress === inProgress);
-    }
+    // if (inProgress !== undefined) {
+    //   return teams.filter((match) => match.inProgress === inProgress);
+    // }
     return teams;
+  }
+
+  async findMatchesFilter(query: string): Promise<MatchesInter[]> {
+    const matches = await this.matchesModel.findAll({
+      where: {
+        inProgress: query === 'true',
+      },
+      include: [
+        { model: Teams, as: 'homeTeam', attributes: ['teamName'] },
+        { model: Teams, as: 'awayTeam', attributes: ['teamName'] },
+      ],
+      attributes: { exclude: ['home_team_id', 'away_team_id'] },
+    });
+    return matches;
   }
 
   async endMatches(id: string, match: MatchesInter): Promise<MatchesInter> {

@@ -21,7 +21,7 @@ export default class LeaderBoardServ {
 
   public async getLeaderBoard() {
     const teams = await this.teamModel.findAll();
-    const matches = await this.model.findAllMatches(undefined);
+    const matches = await this.model.findMatchesFilter('false');
     const teamsWithScore = teams.map((team) => ({
       name: team.teamName,
       totalPoints: totalPointsHome(team.id, matches),

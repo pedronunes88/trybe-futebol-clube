@@ -54,6 +54,7 @@ const totalPointsHome = (teamId: number, matches: MatchesInter[]): number => {
   const drawsHome = totalDrawsHome(teamId, matches) * 1;
   const totalWins = totalWinsHome(teamId, matches) * 3;
   const finalPoints = drawsHome + totalWins;
+  console.log(finalPoints);
   return finalPoints;
 };
 
