@@ -1,45 +1,54 @@
-# 📢 Tech News Scraper
+# ⚽ TFC - Futebol Club
 
-Este projeto tem como principal objetivo realizar consultas em notícias sobre tecnologia, obtidas através da raspagem de dados do blog da Trybe.
+O **TFC** é um site informativo sobre partidas e classificações de futebol! No desenvolvimento deste projeto, foi necessário criar uma **API utilizando TDD** e integrar os serviços com um **banco de dados MySQL** através do `docker-compose`.
 
 ## 🚀 Tecnologias Utilizadas
 
-- **Python**
-- **BeautifulSoup** (para extração de dados HTML)
-- **Requests** (para requisições HTTP)
-- **SQLite** (para armazenamento dos dados)
+- **Node.js**
+- **Express.js**
+- **Sequelize** (ORM para modelagem de banco de dados)
+- **TypeScript**
+- **Docker & Docker Compose**
+- **MySQL**
+- **Jest & Mocha** (para testes)
+- **JWT** (para autenticação)
 
 ## 🎯 Funcionalidades
 
-- Raspagem automática de notícias do blog da Trybe.
-- Extração de informações como título, data e conteúdo.
-- Armazenamento das notícias em um banco de dados.
-- Consulta e filtragem de notícias via terminal.
+- Desenvolvimento de uma API RESTful para gerenciamento de partidas e classificação de times.
+- Implementação de regras de negócio para cálculo da tabela de classificação.
+- Aplicação de **Test-Driven Development (TDD)**.
+- Integração com um **banco de dados MySQL**.
+- Configuração de **containers Docker** para back-end e banco de dados.
+
+## 🏗️ Estrutura do Projeto
+
+### 📂 Banco de Dados (MySQL)
+- Serviço definido como `db` no `docker-compose`.
+- Configurado para rodar na porta `3306`.
+- Conectável via ferramentas como MySQL Workbench, Beekeeper ou DBeaver.
+
+### 🔙 Back-end (Node.js + Express)
+- Principal ambiente de desenvolvimento.
+- Rodando na porta `3001`, consumido pelo front-end.
+- Implementação de autenticação e autorização via JWT.
+
+### 🎨 Front-end (React)
+- Já finalizado e consumindo a API do back-end.
+- Simulação de usuários via **Puppeteer** para testes de interface.
+
+### 🐳 Docker
+- Orquestração dos serviços via `docker-compose`.
+- Configuração de `Dockerfile` para back-end e front-end.
+- Inicialização do projeto com `npm run compose:up`.
 
 ## 🚵 Habilidades Desenvolvidas
 
-- Utilização do terminal interativo do Python.
-- Escrita e importação de módulos próprios.
-- Aplicação de técnicas de raspagem de dados.
-- Extração de conteúdo HTML.
-- Manipulação e armazenamento de dados em banco de dados.
-
-## 🔭 Hard Skills
-
-### 🖥️ Front-end  
-- Next.js, React, TypeScript, Redux, Styled Components, Bootstrap, JavaScript, CSS, HTML, React Router  
-
-### ⚙️ Back-end  
-- Python, NodeJS, Nodemon, Express.js, Sequelize  
-
-### 🧪 Testes  
-- Jest, Testing-Library, Mocha, Cypress  
-
-### 🗄️ Banco de Dados  
-- MySQL, PostgreSQL, MongoDB  
-
-### 🛠️ Ferramentas  
-- JWT, Docker, Git, npm, GitHub, JSON, Linux, Windows, Slack, Discord  
+- Modelagem e manipulação de banco de dados com **Sequelize**.
+- Escrita de testes utilizando **Jest e Mocha**.
+- Utilização de **Docker** para ambientes conteinerizados.
+- Implementação de API seguindo princípios **RESTful**.
+- Aplicação de **TDD** para garantir qualidade do código.
 
 ## 📜 Licença
 
@@ -48,5 +57,6 @@ Este projeto é licenciado sob a [MIT License](LICENSE).
 ---
 
 Desenvolvido por Pedro Nunes 🚀
+
 
 
